@@ -8,20 +8,33 @@ logger = logging.getLogger('gearbot')
 
 class EyebleachCommand(RedditCommand):
     subreddits = ['stacked', 'tightdresses', 'boobs', 'bustypetite', 'hotness']
-    command_reddit = None
-    command_eyebleach = RedditCommand._cmd_reddit
-    command_eyecandy = RedditCommand._cmd_reddit
+
+    def __init__(self):
+        super().__init__()
+        self.command_map = {
+            'eyebleach': self.random_reddit_image,
+            'eyecandy': self.random_reddit_image,
+        }
 
 
 class GuybleachCommand(RedditCommand):
     subreddits = ['malemodels', 'twinks']
-    command_reddit = None
-    command_guybleach = RedditCommand._cmd_reddit
-    command_guycandy = RedditCommand._cmd_reddit
+
+    def __init__(self):
+        super().__init__()
+        self.command_map = {
+            'guybleach': self.random_reddit_image,
+            'guycandy': self.random_reddit_image,
+        }
 
 
 class HotsCommand(object):
-    def command_hots(self, *args, bot=None, update=None):
+    def __init__(self):
+        self.command_map = {
+            'hots': self.hots,
+        }
+
+    def hots(self, *args, bot=None, update=None):
         """
         /hots tier
           
@@ -133,9 +146,8 @@ class HotsCommand(object):
             return hots_hero_tier(*subargs)
 
 
-class TelegramBot(TelegramBot, GetCommand, EyebleachCommand, GuybleachCommand,
-                  HotsCommand):
-    pass
+class TelegramBot(TelegramBot):
+    commands = [GetCommand, EyebleachCommand, GuybleachCommand, HotsCommand]
 
 
 if __name__ == '__main__':
