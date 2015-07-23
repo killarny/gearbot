@@ -54,21 +54,20 @@ class HotsCommand(object):
                 try:
                     wanted_tier = int(wanted_tier)
                 except ValueError:
-                    return self.send_message(update.message.chat.id,
-                                      'There is no "{}" tier. Try '
-                                      'using numbers, fool.'.format(
-                                          wanted_tier))
+                    return bot.send_message(update.message.chat.id,
+                                            'There is no "{}" tier. Try using '
+                                            'numbers, fool.'.format(
+                                                wanted_tier))
             else:
                 wanted_tier = None
             tiers = get_hots_tier_list(self)
             filled_tiers = [k for k, v in tiers.items() if k and v]
             if wanted_tier and wanted_tier not in filled_tiers:
-                return self.send_message(update.message.chat.id,
-                                  'There are only {max} tiers right now, '
-                                  'not {wanted}.'.format(
-                                      max=max(filled_tiers),
-                                      wanted=wanted_tier,
-                                  ))
+                return bot.send_message(update.message.chat.id,
+                                        'There are only {max} tiers right now, '
+                                        'not {wanted}.'.format(
+                                            max=max(filled_tiers),
+                                            wanted=wanted_tier))
 
             message = ['HotS Tier List (Ranked)',
                        '']
@@ -86,8 +85,7 @@ class HotsCommand(object):
                         name=hero.get('hero'),
                         win_pct=hero.get('win-percent'),
                     ))
-            return self.send_message(update.message.chat.id, 
-                                     '\n'.join(message))
+            return bot.send_message(update.message.chat.id, '\n'.join(message))
         
         def hots_hero_tier(*subargs):
             if not subargs:
@@ -114,12 +112,11 @@ class HotsCommand(object):
                     tier = _tier
                     break
             if not hero:
-                return self.send_message(update.message.chat.id,
-                                         'Hero "{name}" not found. Hero is '
-                                         'either not rated yet, or you '
-                                         'misspelled the name.'.format(
-                                             name=hero_name,
-                                         ))
+                return bot.send_message(update.message.chat.id,
+                                        'Hero "{name}" not found. Hero is '
+                                        'either not rated yet, or you '
+                                        'misspelled the name.'.format(
+                                            name=hero_name))
             message = [
                 '- {name}\n'
                 'Tier: {tier}\n'
@@ -131,15 +128,14 @@ class HotsCommand(object):
                     pop=hero.get('popularity'),
                 )
             ]
-            return self.send_message(update.message.chat.id, 
-                                     '\n'.join(message))
+            return bot.send_message(update.message.chat.id, '\n'.join(message))
         
         try:
             subcommand, subargs = args[0], args[1:]
         except IndexError:
             subcommand, subargs = args[0], None
         
-        self.send_chat_action(update.message.chat.id)
+        bot.send_chat_action(update.message.chat.id)
         if subcommand == 'tier':
             return hots_tier_list(*subargs)
         if subcommand == 'hero':
