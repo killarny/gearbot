@@ -13,6 +13,13 @@ class EyebleachCommand(RedditCommand):
     command_eyecandy = RedditCommand._cmd_reddit
 
 
+class GuybleachCommand(RedditCommand):
+    subreddits = ['malemodels', 'twinks']
+    command_reddit = None
+    command_guybleach = RedditCommand._cmd_reddit
+    command_guycandy = RedditCommand._cmd_reddit
+
+
 class HotsCommand(object):
     def command_hots(self, *args, bot=None, update=None):
         """
@@ -126,7 +133,8 @@ class HotsCommand(object):
             return hots_hero_tier(*subargs)
 
 
-class TelegramBot(TelegramBot, GetCommand, EyebleachCommand, HotsCommand):
+class TelegramBot(TelegramBot, GetCommand, EyebleachCommand, GuybleachCommand,
+                  HotsCommand):
     pass
 
 
