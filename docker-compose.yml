@@ -1,0 +1,6 @@
+bot:
+  build: .
+  volumes:
+    - /var/gearbot:/data
+  command: bash -c "source /data/env.sh && python gearbot.py"
+  restart: always
